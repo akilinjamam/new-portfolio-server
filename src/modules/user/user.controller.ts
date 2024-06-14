@@ -1,65 +1,34 @@
-import { RequestHandler } from 'express';
-import { userService } from './user.service';
-import sendRespone from '../../app/utils/sendRespone';
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../app/utils/catchAsync';
+import sendRespone from '../../app/utils/sendRespone';
+import { userSerice } from './user.service';
 
-const createStudent: RequestHandler = catchAsync(async (req, res, next) => {
-  const { students: studentData, password } = req.body;
-
-  // const { value, error } = studentValidationSchema.validate(studentData);
-
-  // const zodParsedData = studentZodSchema.parse(studentData);
-
-  // if (error) {
-  //   return res.status(500).json({
-  //     success: true,
-  //     message: 'student is failed to validate',
-  //     data: error,
-  //   });
-  // }
-
-  const result = await userService.createStudentIntoDb(password, studentData);
-
-  // send response
+const createUser = catchAsync(async (req, res) => {
+  const result = await userSerice.createUser(req.body);
 
   sendRespone(res, {
-    success: true,
     statusCode: StatusCodes.OK,
-    message: 'user is created successfully',
+    success: true,
+    message: 'User registered successfully',
     data: result,
   });
 });
 
-const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty: facultyData } = req.body;
+const createUserLogin = catchAsync(async (req, res) => {
+  const result = await userSerice.createUserLogin(req.body);
 
-  const result = await userService.createFacultyIntoDB(password, facultyData);
-
-  sendRespone(res, {
-    statusCode: StatusCodes.OK,
-    success: true,
-    message: 'Faculty is created succesfully',
-    data: result,
-  });
-});
-
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
-  console.log('admin');
-
-  const result = await userService.createAdminIntoDB(password, adminData);
+  const { token, findUser } = result;
 
   sendRespone(res, {
-    statusCode: StatusCodes.OK,
     success: true,
-    message: 'Admin is created succesfully',
-    data: result,
+    statusCode: StatusCodes.OK,
+    message: 'User logged in successfully',
+    token,
+    data: findUser,
   });
 });
 
 export const userController = {
-  createStudent,
-  createAdmin,
-  createFaculty,
+  createUser,
+  createUserLogin,
 };

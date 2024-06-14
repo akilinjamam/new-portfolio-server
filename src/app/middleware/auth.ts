@@ -6,59 +6,27 @@ import { AppError } from '../errors/AppError';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import { TUserRole } from '../../modules/user/user.interface';
-import User from '../../modules/user/user.model';
 
 const auth = (...requiredRoles: TUserRole[]) => {
-  // console.log('auth', requiredRoles);
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req?.headers?.authorization;
 
-    if (!token) {
+    const mainToken = token?.split(' ')[1];
+
+    if (!mainToken) {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');
     }
 
     const decoded = jwt.verify(
-      token,
+      mainToken,
       config.jwt_access_secret as string,
     ) as JwtPayload;
 
-    const { role, userId, iat } = decoded;
-
-    const isUserExists = await User.isUserExistsByCustomId(userId);
-
-    if (!isUserExists) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'user not found');
-    }
-    const isDeleted = isUserExists.isDeleted;
-
-    if (isDeleted) {
-      throw new AppError(StatusCodes.FORBIDDEN, 'user is deleted');
-    }
-
-    const userStatus = isUserExists.status;
-
-    if (userStatus === 'blocked') {
-      throw new AppError(StatusCodes.FORBIDDEN, 'user is blocked');
-    }
-    // checking if password is changed or not
-    if (
-      isUserExists?.passwordChangedAt &&
-      User.isJWTIssuedBeforePasswordChanged(
-        isUserExists?.passwordChangedAt,
-        iat as number,
-      )
-    ) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
-    }
+    const { role } = decoded;
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
-        StatusCodes.UNAUTHORIZED,
-        'You are not authorized  hi!',
-      );
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized!');
     }
-
-    req.user = decoded as JwtPayload;
     next();
   });
 };

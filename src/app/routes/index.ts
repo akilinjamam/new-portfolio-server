@@ -1,65 +1,30 @@
 import express from 'express';
 import { userRouter } from '../../modules/user/user.route';
-import { studentRouter } from '../../modules/student/student.route';
-import { academicSemesterRouter } from '../../modules/academicSemester/academicSemester.route';
-import { academicFacultyRouter } from '../../modules/academicFaculty/academicFaculty.route';
-import { academicDepartmentRouter } from '../../modules/academicDepartment/academicDepartment.route';
-import { CourseRouter } from '../../modules/course/course.route';
-import { FacultyRoutes } from '../../modules/faculty/faculty.route';
-import { AdminRoutes } from '../../modules/admin/admin.route';
-import { semesterRegistrationRoutes } from '../../modules/semesterRegistration/semesterRegistration.route';
-import { offeredCourseRoutes } from '../../modules/offeredCourse/offeredCourse.route';
-import { AuthRouter } from '../../modules/auth/auth.route';
+import { roomRouter } from '../../modules/room/room.route';
+import { slotRouter } from '../../modules/slot/slot.route';
+import { bookingRouter } from '../../modules/booking/booking.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
-    path: '/users',
+    path: '/auth',
     route: userRouter,
   },
   {
-    path: '/students',
-    route: studentRouter,
+    path: '/rooms',
+    route: roomRouter,
   },
   {
-    path: '/faculties',
-    route: FacultyRoutes,
+    path: '/slots',
+    route: slotRouter,
   },
   {
-    path: '/admins',
-    route: AdminRoutes,
-  },
-  {
-    path: '/academic-semesters',
-    route: academicSemesterRouter,
-  },
-  {
-    path: '/academic-faculties',
-    route: academicFacultyRouter,
-  },
-  {
-    path: '/academic-departments',
-    route: academicDepartmentRouter,
-  },
-  {
-    path: '/courses',
-    route: CourseRouter,
-  },
-  {
-    path: '/semester-registrations',
-    route: semesterRegistrationRoutes,
-  },
-  {
-    path: '/offered-courses',
-    route: offeredCourseRoutes,
-  },
-  {
-    path: '/auth',
-    route: AuthRouter,
+    path: '/bookings',
+    route: bookingRouter,
   },
 ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+moduleRoutes.forEach((route) => router.use(route.path, route.route as any));
 
 export default router;

@@ -6,30 +6,21 @@ import router from './app/routes';
 import cookieParser from 'cookie-parser';
 const app: Application = express();
 
-app.use(cors({ origin: ['http://localhost:5173'] }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// testing unhandle rejection
-// const test = async (req: Request, res: Response) => {
-//   Promise.reject();
-// };
-
-// app.get('/', test);
-
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('welcome to assignment 3');
 });
 
-app.use('/api/v1', router);
+app.use('/api/', router);
 
 // not found route
-
 app.use(notFoundRoute);
 
 // global error handler
-
 app.use(globalErrorHandler);
 
 export default app;
