@@ -20,7 +20,7 @@ app.use('/api/', router);
 // not found route
 app.use(notFoundRoute);
 
-// global error handler
+// global error handler..
 app.use(globalErrorHandler);
 
 export default app;

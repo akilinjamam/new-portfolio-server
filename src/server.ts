@@ -20,7 +20,7 @@ async function main() {
 
 main();
 
-// handling unhandle rejection
+// handling unhandle rejection..
 
 process.on('unhandledRejection', () => {
   console.log(`unhandleRejection is detected, sutting down....`);
