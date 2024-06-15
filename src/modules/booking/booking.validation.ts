@@ -14,6 +14,19 @@ const bookingSchema = z.object({
   }),
 });
 
+const updatebookingSchema = z.object({
+  body: z.object({
+    date: z.string().optional(),
+    slots: z.array(slotIdSchema).optional(),
+    room: z.string().optional(),
+    user: z.string().optional(),
+    isConfirmed: z.enum(['confirmed', 'unconfirmed', 'canceled']).optional(),
+    totalAmount: z.number().optional().optional(),
+    isDeleted: z.boolean().default(false),
+  }),
+});
+
 export const bookingValidationSchema = {
   bookingSchema,
+  updatebookingSchema,
 };

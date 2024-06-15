@@ -12,5 +12,17 @@ router.post(
   validateRequest(bookingValidationSchema.bookingSchema),
   bookingController.createBooking,
 );
+router.get(
+  '/',
+  auth(USER_ROLE.admin, USER_ROLE.user),
+  bookingController.getAllBookings,
+);
 
+router.put(
+  '/:id',
+  auth(USER_ROLE.admin),
+  validateRequest(bookingValidationSchema.updatebookingSchema),
+  bookingController.updateBooking,
+);
+router.delete('/:id', auth(USER_ROLE.admin), bookingController.deleteBooking);
 export const bookingRouter = router;

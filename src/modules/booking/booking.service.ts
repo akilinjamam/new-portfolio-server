@@ -30,6 +30,30 @@ const createBooking = async (payload: TBooking) => {
   return populateBooking;
 };
 
+const getAllBookings = async () => {
+  const result = await Booking.find({ isDeleted: false })
+    .populate('slots')
+    .populate('room')
+    .populate('user');
+  return result;
+};
+
+const updateBookings = async (id: string, payload: Record<string, unknown>) => {
+  const result = await Booking.findByIdAndUpdate(id, payload, { new: true });
+  return result;
+};
+const deleteBookings = async (id: string) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
+  return result;
+};
+
 export const bookingService = {
   createBooking,
+  getAllBookings,
+  updateBookings,
+  deleteBookings,
 };

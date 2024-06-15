@@ -16,7 +16,7 @@ router.post(
 
 router.get('/', roomController.getAllRoom);
 router.get('/:id', roomController.getSingleRoom);
-router.patch(
+router.put(
   '/:id',
   auth(USER_ROLE.admin),
   validateRequest(roomValidationSchema.updateRoomSchema),
