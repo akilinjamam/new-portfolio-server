@@ -6,6 +6,7 @@ import { AppError } from '../errors/AppError';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import { TUserRole } from '../../modules/user/user.interface';
+import sendRespone from '../utils/sendRespone';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +15,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const mainToken = token?.split(' ')[1];
 
     if (!mainToken) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized');
+      return sendRespone(res, {
+        success: false,
+        statusCode: StatusCodes.UNAUTHORIZED,
+        message: 'You have no access to this route',
+      });
     }
 
     const decoded = jwt.verify(
@@ -25,7 +30,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const { role } = decoded;
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized!');
+      return sendRespone(res, {
+        success: false,
+        statusCode: StatusCodes.UNAUTHORIZED,
+        message: 'You have no access to this route',
+      });
     }
     next();
   });

@@ -6,5 +6,5 @@ export type TerrorSource = {
 export type TgenericErrorResponse = {
   statusCode: number;
   message: string;
-  errorSources: TerrorSource;
+  errorMessages: TerrorSource;
 };

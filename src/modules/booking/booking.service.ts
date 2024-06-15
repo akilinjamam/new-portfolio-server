@@ -3,6 +3,8 @@ import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
 import { Slot } from '../slot/slot.model';
 import { Room } from '../room/room.model';
+import { AppError } from '../../app/errors/AppError';
+import { StatusCodes } from 'http-status-codes';
 
 const createBooking = async (payload: TBooking) => {
   const { date, slots, room, user } = payload;
@@ -35,6 +37,7 @@ const getAllBookings = async () => {
     .populate('slots')
     .populate('room')
     .populate('user');
+
   return result;
 };
 

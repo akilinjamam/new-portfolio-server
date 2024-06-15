@@ -14,7 +14,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   // setting defaul values
   let statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
   let message = 'something went wrong';
-  let errorSources: TerrorSource = [
+  let errorMessages: TerrorSource = [
     {
       path: '',
       message: 'Something went wrong',
@@ -25,25 +25,25 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError?.message;
-    errorSources = simplifiedError.errorSources;
+    errorMessages = simplifiedError.errorMessages;
   } else if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
+    errorMessages = simplifiedError?.errorMessages;
   } else if (err?.name === 'CastError') {
     const simplifiedError = handleCastError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
+    errorMessages = simplifiedError?.errorMessages;
   } else if (err?.code === 11000) {
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
-    errorSources = simplifiedError?.errorSources;
+    errorMessages = simplifiedError?.errorMessages;
   } else if (err instanceof AppError) {
     (statusCode = err?.statusCode), (message = err?.message);
-    errorSources = [
+    errorMessages = [
       {
         path: '',
         message: err?.message,
@@ -51,7 +51,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     ];
   } else if (err instanceof Error) {
     message = err?.message;
-    errorSources = [
+    errorMessages = [
       {
         path: '',
         message: err?.message,
@@ -62,9 +62,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   return res.status(statusCode).json({
     success: false,
     message,
-    errorSources,
+    errorMessages,
     stack: config.NODE_ENV === 'development' ? err?.stack : null,
-    err,
   });
 };
 

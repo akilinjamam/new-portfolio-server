@@ -6,13 +6,13 @@ type TResponse<T> = {
   success: boolean;
   message?: string;
   token?: string;
-  data: T;
+  data?: T;
 };
 
 const sendRespone = <T>(res: Response, data: TResponse<T>) => {
   res.status(data.statusCode).json({
     success: data.success,
-    statusCode: StatusCodes.OK,
+    statusCode: data.statusCode,
     message: data.message,
     token: data.token,
     data: data.data,
