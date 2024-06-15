@@ -2,7 +2,7 @@
 
 ### This project is build with Typscript, node, Express and with mongoDB mongoose:
 
-### Folloing models as requirements are fullfiled:
+### Following models as requirements are fullfiled:
 
 1. User model
 2. Room model
