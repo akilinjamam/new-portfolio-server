@@ -9,27 +9,40 @@ import { StatusCodes } from 'http-status-codes';
 const createBooking = async (payload: TBooking) => {
   const { date, slots, room, user } = payload;
 
-  const findRoom = await Room.findById(room).select('pricePerSlot');
-  await Slot.updateMany({ _id: slots }, { isBooked: true });
-  const totalPrice = (findRoom?.pricePerSlot as number) * slots.length;
-  const bookings = new Booking({
-    date,
-    slots: slots?.map((slot: any) => new mongoose.Types.ObjectId(slot)),
-    room: new mongoose.Types.ObjectId(room),
-    user: new mongoose.Types.ObjectId(user),
-    totalAmount: totalPrice,
-    isConfirmed: 'unconfirmed',
-    isDeleted: false,
-  });
+  const session = await mongoose.startSession();
 
-  await bookings.save();
+  try {
+    session.startTransaction();
 
-  const populateBooking = await Booking.findById(bookings._id)
-    .populate('slots')
-    .populate('room')
-    .populate('user');
+    const findRoom = await Room.findById(room).select('pricePerSlot');
+    await Slot.updateMany({ _id: slots }, { isBooked: true });
+    const totalPrice = (findRoom?.pricePerSlot as number) * slots.length;
+    const bookings = new Booking({
+      date,
+      slots: slots?.map((slot: any) => new mongoose.Types.ObjectId(slot)),
+      room: new mongoose.Types.ObjectId(room),
+      user: new mongoose.Types.ObjectId(user),
+      totalAmount: totalPrice,
+      isConfirmed: 'unconfirmed',
+      isDeleted: false,
+    });
 
-  return populateBooking;
+    await bookings.save();
+
+    const populateBooking = await Booking.findById(bookings._id)
+      .populate('slots')
+      .populate('room')
+      .populate('user');
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return populateBooking;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed!!');
+  }
 };
 
 const getAllBookings = async () => {
