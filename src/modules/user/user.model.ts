@@ -7,7 +7,12 @@ const userSchema = new Schema<TUser>({
   password: { type: String, required: true },
   phone: { type: String, required: true },
   address: { type: String, required: true },
-  role: { type: String, enum: ['user', 'admin'], required: true },
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    required: true,
+    default: 'user',
+  },
 });
 
 const User = mongoose.model<TUser>('User', userSchema);
