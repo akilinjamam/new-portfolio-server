@@ -25,7 +25,7 @@ class QueryBuilder<T> {
   }
 
   filter() {
-    const queryObj = { ...this.query }; //copy
+    const queryObj = { ...this.query }; //copied
 
     // filtering
     const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
