@@ -32,9 +32,13 @@ class QueryBuilder<T> {
 
     excludeFields.forEach((el) => delete queryObj[el]);
 
-    this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-
-    return this;
+    if (queryObj.capacity === '' || queryObj.pricePerSlot === '') {
+      this.modelQuery = this.modelQuery.find({});
+      return this;
+    } else {
+      this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
+      return this;
+    }
   }
 
   sort() {
