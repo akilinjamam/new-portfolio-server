@@ -42,8 +42,8 @@ const getAllRoom = catchAsync(async (req, res) => {
     success: true,
     statusCode: StatusCodes.OK,
     message: 'Room retrieved successfully',
-    data: result.data,
     meta: result.meta,
+    data: result.data,
   });
 });
 
