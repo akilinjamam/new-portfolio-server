@@ -6,6 +6,16 @@ import router from './app/routes';
 import cookieParser from 'cookie-parser';
 const app: Application = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('welcome to assignment 3');
+});
+
+app.use('/api/', router);
+
 app.use(
   cors({
     origin: [
@@ -16,15 +26,6 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('welcome to assignment 3');
-});
-
-app.use('/api/', router);
 
 // not found route
 app.use(notFoundRoute);
