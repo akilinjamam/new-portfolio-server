@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
@@ -25,20 +26,32 @@ class QueryBuilder<T> {
   }
 
   filter() {
-    const queryObj = { ...this.query }; //copied
+    const queryObj = { ...this.query }; //copy
 
     // filtering
     const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
 
     excludeFields.forEach((el) => delete queryObj[el]);
 
-    if (queryObj.capacity === '' || queryObj.pricePerSlot === '') {
-      this.modelQuery = this.modelQuery.find({});
-      return this;
+    let queryData = {};
+
+    if (queryObj.pricePerSlot === '' && queryObj.capacity === '') {
+      queryData = {};
     } else {
-      this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-      return this;
+      queryData = { ...queryObj };
     }
+
+    if (queryObj.pricePerSlot && queryObj.capacity === '') {
+      queryData = { pricePerSlot: queryObj.pricePerSlot };
+    }
+
+    if (queryObj.capacity && queryObj.pricePerSlot === '') {
+      queryData = { capacity: queryObj.capacity };
+    }
+
+    this.modelQuery = this.modelQuery.find(queryData as FilterQuery<T>);
+
+    return this;
   }
 
   sort() {
