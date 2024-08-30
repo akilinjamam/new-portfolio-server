@@ -7,7 +7,7 @@ const createUserSchema = z.object({
     password: z.string(),
     phone: z.string(),
     address: z.string(),
-    role: z.enum(['user', 'admin']),
+    role: z.enum(['user', 'admin']).optional(),
   }),
 });
 const createUserLoginSchema = z.object({

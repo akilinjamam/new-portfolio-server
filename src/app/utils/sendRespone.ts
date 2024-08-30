@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 
 type TResponse<T> = {
   statusCode: number;
@@ -7,6 +7,7 @@ type TResponse<T> = {
   message?: string;
   token?: string;
   data?: T;
+  meta?: any;
 };
 
 const sendRespone = <T>(res: Response, data: TResponse<T>) => {
@@ -16,6 +17,7 @@ const sendRespone = <T>(res: Response, data: TResponse<T>) => {
     message: data.message,
     token: data.token,
     data: data.data,
+    meta: data.meta,
   });
 };
 

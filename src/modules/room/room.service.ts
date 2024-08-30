@@ -1,3 +1,5 @@
+import QueryBuilder from '../../middleware/queryBuilder';
+import { searchableFields } from './room.constant';
 import { TRoom } from './room.interface';
 import { Room } from './room.model';
 
@@ -12,10 +14,21 @@ const getSingleRoom = async (id: string) => {
 
   return result;
 };
-const getAllRoom = async () => {
-  const result = await Room.find({ isDeleted: false });
+const getAllRoom = async (query: Record<string, unknown>) => {
+  const roomQuery = new QueryBuilder(Room.find({ isDeleted: false }), query)
+    .search(searchableFields)
+    .filter()
+    .sort()
+    .pagination()
+    .fields();
 
-  return result;
+  const meta = await roomQuery.countTotal();
+  const data = await roomQuery.modelQuery;
+
+  return {
+    meta,
+    data,
+  };
 };
 const updateRoom = async (id: string, payload: Partial<TRoom>) => {
   const result = await Room.findByIdAndUpdate(id, payload, { new: true });

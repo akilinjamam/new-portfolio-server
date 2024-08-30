@@ -27,9 +27,9 @@ const getSingleRoom = catchAsync(async (req, res) => {
 });
 
 const getAllRoom = catchAsync(async (req, res) => {
-  const result = await roomService.getAllRoom();
+  const result = await roomService.getAllRoom(req.query);
 
-  if (result?.length === 0 || !result) {
+  if (result?.data?.length === 0 || !result) {
     return sendRespone(res, {
       success: false,
       statusCode: StatusCodes.NOT_FOUND,
@@ -42,7 +42,8 @@ const getAllRoom = catchAsync(async (req, res) => {
     success: true,
     statusCode: StatusCodes.OK,
     message: 'Room retrieved successfully',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 

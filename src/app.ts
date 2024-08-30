@@ -6,7 +6,15 @@ import router from './app/routes';
 import cookieParser from 'cookie-parser';
 const app: Application = express();
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'https://level-2-24-assignment-3.vercel.app',
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

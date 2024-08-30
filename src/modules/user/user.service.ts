@@ -12,9 +12,14 @@ const createUser = async (payload: TUser) => {
 };
 
 const createUserLogin = async (payload: TUser) => {
-  const findUser = await User.findOne({ email: payload?.email }).select(
-    '-password',
-  );
+  const findUser = await User.findOne({ email: payload?.email });
+
+  if (!findUser) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'user not found');
+  }
+  if (findUser?.password !== payload?.password) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'password did not match ');
+  }
 
   let token;
 
