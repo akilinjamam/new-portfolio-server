@@ -11,6 +11,7 @@ app.use(
     origin: [
       'http://localhost:5173',
       'https://level-2-24-assignment-3.vercel.app',
+      'https://level-2-24-assignment-3.vercel.app/api/auth/login',
     ],
     credentials: true,
   }),
