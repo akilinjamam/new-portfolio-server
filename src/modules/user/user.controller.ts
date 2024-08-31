@@ -14,6 +14,16 @@ const createUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getUser = catchAsync(async (req, res) => {
+  const result = await userSerice.getUser();
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'User retrieved successfully',
+    data: result,
+  });
+});
 
 const createUserLogin = catchAsync(async (req, res) => {
   const result = await userSerice.createUserLogin(req.body);
@@ -39,4 +49,5 @@ const createUserLogin = catchAsync(async (req, res) => {
 export const userController = {
   createUser,
   createUserLogin,
+  getUser,
 };

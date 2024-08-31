@@ -10,6 +10,11 @@ const createUser = async (payload: TUser) => {
 
   return result;
 };
+const getUser = async () => {
+  const result = await User.find({});
+
+  return result;
+};
 
 const createUserLogin = async (payload: TUser) => {
   const findUser = await User.findOne({ email: payload?.email });
@@ -48,4 +53,5 @@ const createUserLogin = async (payload: TUser) => {
 export const userSerice = {
   createUser,
   createUserLogin,
+  getUser,
 };
