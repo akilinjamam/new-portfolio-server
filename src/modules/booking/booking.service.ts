@@ -19,6 +19,7 @@ const createBooking = async (payload: TBooking) => {
     const totalPrice = (findRoom?.pricePerSlot as number) * slots.length;
     const bookings = new Booking({
       date,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       slots: slots?.map((slot: any) => new mongoose.Types.ObjectId(slot)),
       room: new mongoose.Types.ObjectId(room),
       user: new mongoose.Types.ObjectId(user),
