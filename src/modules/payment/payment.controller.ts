@@ -8,19 +8,19 @@ const createSuccess = catchAsync(async (req, res) => {
 
   const result = await paymentSevice.createSuccess(bookingId as string);
 
-  sendRespone(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: 'Payment updated successfully',
-    data: result,
-  });
-
   const userId = result?.user;
   if (userId) {
     res.redirect(
       `https://level-2-24-assignment-5-client.vercel.app/success?userId=${userId}`,
     );
   }
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Payment updated successfully',
+    data: result,
+  });
 });
 
 export const paymentController = {
