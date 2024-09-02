@@ -3,8 +3,6 @@ import { IPaymentData } from './payment.interface';
 import { v4 as uuid } from 'uuid';
 
 const makePayment = async (bodyData: IPaymentData) => {
-  console.log(bodyData);
-
   const generateUniqueId = uuid();
 
   const booking = await Booking.findById(bodyData?.bookingId);
