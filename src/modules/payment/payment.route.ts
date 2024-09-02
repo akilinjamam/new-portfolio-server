@@ -8,5 +8,6 @@ router.post(
 
   paymentController.createSuccess,
 );
+router.post('/payment', paymentController.makePayment);
 
 export const paymentRouter = router;
