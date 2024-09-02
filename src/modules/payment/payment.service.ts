@@ -20,7 +20,7 @@ const makePayment = async (bodyData: IPaymentData) => {
     cancel_url: 'http://localhost:5000/api/v1/payment/cancel',
     ipn_url: 'http://localhost:3030/ipn',
     shipping_method: 'Courier',
-    product_name: 'Computer.',
+    product_name: 'room service.',
     product_category: 'Electronic',
     product_profile: 'general',
     cus_name: bodyData.CUS_name,
