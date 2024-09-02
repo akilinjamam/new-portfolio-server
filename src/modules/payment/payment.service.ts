@@ -7,7 +7,7 @@ const makePayment = async (bodyData: IPaymentData) => {
 
   const generateUniqueId = uuid();
 
-  const booking = await Booking.findById('66d549f0d3d6e48c82c8ae72');
+  const booking = await Booking.findById(bodyData?.bookingId);
 
   const demoId = '1234';
 
