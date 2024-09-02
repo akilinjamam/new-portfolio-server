@@ -9,16 +9,17 @@ import config from '../../app/config';
 // @ts-ignore
 import SSLCommerzPayment from 'sslcommerz-lts';
 import User from '../user/user.model';
+import { v4 as uuidv4 } from 'uuid';
 
 const createBooking = catchAsync(async (req, res) => {
   const result = await bookingService.createBooking(req.body);
 
   const findUser = await User.findById(req.body.user);
-
+  const generateUniqueId = uuidv4();
   const data = {
     total_amount: 100,
     currency: 'BDT',
-    tran_id: 'REF123', // use unique tran_id for each api call
+    tran_id: generateUniqueId, // use unique tran_id for each api call
     success_url: `https://level-2-24-assignment-3.vercel.app/api/success?bookingId=${result?._id}`,
     fail_url: 'http://localhost:3030/fail',
     cancel_url: 'http://localhost:3030/cancel',
