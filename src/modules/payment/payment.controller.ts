@@ -8,12 +8,14 @@ const createSuccess = catchAsync(async (req, res) => {
 
   const result = await paymentSevice.createSuccess(bookingId as string);
 
-  const userId = result?.user;
-  if (userId) {
-    res.redirect(
-      `https://level-2-24-assignment-5-client.vercel.app/success?userId=${userId}`,
-    );
-  }
+  res.redirect('https://level-2-24-assignment-5-client.vercel.app/success');
+
+  // const userId = result?.user;
+  // if (userId) {
+  //   res.redirect(
+  //     `https://level-2-24-assignment-5-client.vercel.app/success?userId=${userId}`,
+  //   );
+  // }
 
   sendRespone(res, {
     success: true,
