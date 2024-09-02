@@ -19,7 +19,7 @@ const createBooking = catchAsync(async (req, res) => {
     total_amount: 100,
     currency: 'BDT',
     tran_id: 'REF123', // use unique tran_id for each api call
-    success_url: `https://level-2-24-assignment-5-client.vercel.app/api/success?bookingId=${result?._id}`,
+    success_url: `https://level-2-24-assignment-3.vercel.app/api/success?bookingId=${result?._id}`,
     fail_url: 'http://localhost:3030/fail',
     cancel_url: 'http://localhost:3030/cancel',
     ipn_url: 'http://localhost:3030/ipn',

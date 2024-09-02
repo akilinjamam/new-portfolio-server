@@ -14,6 +14,12 @@ const createSuccess = catchAsync(async (req, res) => {
     message: 'Payment updated successfully',
     data: result,
   });
+
+  if (result?.user) {
+    res.redirect(
+      `https://level-2-24-assignment-5-client.vercel.app/success?userId=${result?.user}`,
+    );
+  }
 });
 
 export const paymentController = {
