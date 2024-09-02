@@ -5,15 +5,13 @@ import { v4 as uuid } from 'uuid';
 const makePayment = async (bodyData: IPaymentData) => {
   const generateUniqueId = uuid();
 
-  const booking = await Booking.findById(bodyData?.bookingId);
-
   const demoId = '1234';
 
   const data = {
     total_amount: bodyData.total_amount,
     currency: 'BDT',
     tran_id: generateUniqueId,
-    success_url: `https://level-2-24-assignment-3.vercel.app/api/success?bookingId=${booking?._id}`,
+    success_url: `https://level-2-24-assignment-3.vercel.app/api/success?bookingId=${bodyData?.bookingId}`,
     fail_url: `https://level-2-24-assignment-3.vercel.app/api/success?bookingId=${demoId}`,
     cancel_url: 'http://localhost:5000/api/v1/payment/cancel',
     ipn_url: 'http://localhost:3030/ipn',
