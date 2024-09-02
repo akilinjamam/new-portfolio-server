@@ -51,7 +51,7 @@ const createSuccess = catchAsync(async (req, res) => {
 
   if (result?.user) {
     res.redirect(
-      `https://level-2-24-assignment-5-client.vercel.app/success?userId=${result?.user}`,
+      `https://level-2-24-assignment-5-client.vercel.app/success/${result?.user}`,
     );
   }
 });
