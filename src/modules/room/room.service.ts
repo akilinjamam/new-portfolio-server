@@ -5,7 +5,6 @@ import { Room } from './room.model';
 
 const createRoom = async (payload: TRoom) => {
   const result = await Room.create(payload);
-
   return result;
 };
 

@@ -11,6 +11,7 @@ const creatRoomSchema = z.object({
       .array(z.string())
       .nonempty('Amenities must contain at least one item'),
   }),
+  images: z.array(z.string()).nonempty('must have to add images'),
   isDeleted: z.boolean().default(false),
 });
 
