@@ -87,8 +87,15 @@ const updateSlots = async (payload: Record<string, unknown>) => {
   return result;
 };
 
+const deleteSlot = async (id: string) => {
+  const result = await Slot.deleteOne({ _id: id });
+
+  return result;
+};
+
 export const slotService = {
   createSlot,
   getAllSlots,
   updateSlots,
+  deleteSlot,
 };
