@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
+import { AppError } from '../../app/errors/AppError';
 import { TSlot } from './slot.interface';
 import { Slot } from './slot.model';
 import { convertToMinutes, convertToTimeString } from './slot.utils';
@@ -56,7 +57,38 @@ const getAllSlots = async (query: Record<string, unknown>) => {
   return result;
 };
 
+const updateSlots = async (payload: Record<string, unknown>) => {
+  const { oldDate, room, newDate } = payload;
+  const findUpdatableSlotIdsAccordingToRoomAndDate = await Slot.find({
+    date: oldDate,
+    room: room,
+  });
+
+  const allUpdatableSlotIds = findUpdatableSlotIdsAccordingToRoomAndDate.map(
+    (item) => item._id,
+  );
+
+  // check new date is available or not
+
+  const checkAvailableDateForSlot = await Slot.findOne({ date: newDate });
+
+  if (checkAvailableDateForSlot) {
+    throw new AppError(
+      StatusCodes.FORBIDDEN,
+      'Sorry this Date is Already booked for another meeting room',
+    );
+  }
+
+  const result = await Slot.updateMany(
+    { _id: { $in: allUpdatableSlotIds } },
+    { $set: { date: newDate } },
+  );
+
+  return result;
+};
+
 export const slotService = {
   createSlot,
   getAllSlots,
+  updateSlots,
 };

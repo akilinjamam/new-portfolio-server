@@ -32,8 +32,20 @@ const getAllSlot = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateSlot = catchAsync(async (req, res) => {
+  const bodyData = req.body;
+  const result = await slotService.updateSlots(bodyData);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'slot date updated successfully',
+    data: result,
+  });
+});
 
 export const slotController = {
   createSlot,
   getAllSlot,
+  updateSlot,
 };
