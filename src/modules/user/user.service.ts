@@ -50,8 +50,15 @@ const createUserLogin = async (payload: TUser) => {
   };
 };
 
+const updateUser = async (id: string, payload: Record<string, unknown>) => {
+  const result = await User.findByIdAndUpdate(id, payload, { new: true });
+
+  return result;
+};
+
 export const userSerice = {
   createUser,
   createUserLogin,
   getUser,
+  updateUser,
 };

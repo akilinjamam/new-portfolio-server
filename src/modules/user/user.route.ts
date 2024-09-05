@@ -19,4 +19,6 @@ router.post(
   userController.createUserLogin,
 );
 
+router.get('/:id', auth(USER_ROLE.admin), userController.updateUser);
+
 export const userRouter = router;

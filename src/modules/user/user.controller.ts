@@ -46,8 +46,20 @@ const createUserLogin = catchAsync(async (req, res) => {
   });
 });
 
+const updateUser = catchAsync(async (req, res) => {
+  const result = await userSerice.updateUser(req.params.id, req.body);
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'User updated successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   createUser,
   createUserLogin,
   getUser,
+  updateUser,
 };
