@@ -4,10 +4,11 @@ import catchAsync from '../utils/catchAsync';
 import { StatusCodes } from 'http-status-codes';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
-import { TUserRole } from '../../modules/user/user.interface';
+
 import sendRespone from '../utils/sendRespone';
 
-const auth = (...requiredRoles: TUserRole[]) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const auth = (...requiredRoles: any) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req?.headers?.authorization;
 
