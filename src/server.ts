@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import app from './app';
 import mongoose from 'mongoose';
 import config from './app/config';

@@ -1,36 +1,27 @@
 import express from 'express';
-import { userRouter } from '../../modules/user/user.route';
-import { roomRouter } from '../../modules/room/room.route';
-import { slotRouter } from '../../modules/slot/slot.route';
-import { bookingRouter } from '../../modules/booking/booking.route';
-import { paymentRouter } from '../../modules/payment/payment.route';
+import { blogRouter } from '../../modules/blog/blog.route';
+import { expRouter } from '../../modules/experience/experience.route';
+import { projectRouter } from '../../modules/projects/projects.route';
+import { skillRouter } from '../../modules/skills/skills.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
-    path: '/auth',
-    route: userRouter,
+    path: '/blogs',
+    route: blogRouter,
   },
   {
-    path: '/rooms',
-    route: roomRouter,
+    path: '/exp',
+    route: expRouter,
   },
   {
-    path: '/slots',
-    route: slotRouter,
+    path: '/projects',
+    route: projectRouter,
   },
   {
-    path: '/bookings',
-    route: bookingRouter,
-  },
-  {
-    path: '/my-bookings',
-    route: bookingRouter,
-  },
-  {
-    path: '/success',
-    route: paymentRouter,
+    path: '/skills',
+    route: skillRouter,
   },
 ];
 
